@@ -1,22 +1,25 @@
-import { useCallback, useEffect, useState } from 'react';
+import 'react-native-gesture-handler';
 import { StyleSheet, Text } from 'react-native';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import * as SplashScreen from 'expo-splash-screen';
+import { useCallback, useEffect, useState } from 'react';
+import * as Font from 'expo-font';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
-import ChatListingScreen from './screens/ChatListingScreen';
-import * as SplashScreen from 'expo-splash-screen';
-import * as Font from 'expo-font';
-import 'react-native-gesture-handler';
+import MsgListingScreen from './screens/MsgListingScreen';
+import MsgSettingsScreen from './screens/MsgSettingsScreen';
 
-const Stack = createStackNavigator();
 SplashScreen.preventAutoHideAsync();
+const Stack = createStackNavigator();
 
 export default function App() {
+
   const [appIsLoaded, setAppIsLoaded] = useState(false);
 
   useEffect(() => {
-    const loadFonts = async () => {
+
+    const prepare = async () => {
       try {
         await Font.loadAsync({
           'black': require('./assets/fonts//Roboto-Black.ttf'),
@@ -32,22 +35,23 @@ export default function App() {
           'thin': require('./assets/fonts/Roboto-Thin.ttf'),
           'thinItalic': require('./assets/fonts/Roboto-ThinItalic.ttf'),
         });
-      } catch(error) {
-        console.error('I am error. Problem loading fonts');
-      } finally {
+      }
+      catch (error) {
+        console.log.error();
+      }
+      finally {
         setAppIsLoaded(true);
       }
     };
 
-    loadFonts();
+    prepare();
   }, []);
 
-  const onLayout = useCallback(
-    async () => {
-      if (appIsLoaded) {
-        await SplashScreen.hideAsync();
-      }
-    }, [appIsLoaded]);
+  const onLayout = useCallback(async () => {
+    if (appIsLoaded) {
+      await SplashScreen.hideAsync();
+    }
+  }, [appIsLoaded]);
 
   if (!appIsLoaded) {
     return null;
@@ -56,15 +60,15 @@ export default function App() {
   return (
     <SafeAreaProvider
       style={styles.container}
-      onLayout={onLayout}
-    >
-      <SafeAreaView>
+      onLayout={onLayout}>
+
         <NavigationContainer>
           <Stack.Navigator>
-            <Stack.Screen name="Home" component={ChatListingScreen}/>
+            <Stack.Screen name="Home" component={MsgListingScreen} />
+            <Stack.Screen name="MsgSettings" component={MsgSettingsScreen} />
           </Stack.Navigator>
         </NavigationContainer>
-      </SafeAreaView>
+
     </SafeAreaProvider>
   );
 }
@@ -73,12 +77,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   label: {
     color: 'black',
     fontSize: 18,
-    fontFamily: "regular"
+    fontFamily: 'regular'
   }
 });
