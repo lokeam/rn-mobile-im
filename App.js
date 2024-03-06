@@ -3,49 +3,10 @@ import 'react-native-gesture-handler';
 import { StyleSheet, Text } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import * as SplashScreen from 'expo-splash-screen';
-
 import * as Font from 'expo-font';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { MaterialIcons } from '@expo/vector-icons';
-
-import MsgListingScreen from './screens/MsgListingScreen';
-import MsgSettingsScreen from './screens/MsgSettingsScreen';
-import GeneralSettingsScreen from './screens/GeneralSettingsScreen';
+import AppNavigator from './navigation/AppNavigator';
 
 SplashScreen.preventAutoHideAsync();
-const Stack = createStackNavigator();
-const Tab = createBottomTabNavigator();
-
-const TabNavigator = () => {
-  return (
-    <Tab.Navigator screenOptions={{
-      headerTitle: ""
-    }}>
-      <Tab.Screen
-        name="MsgList"
-        component={MsgListingScreen}
-        options={{
-          tabBarLabel: "Messages",
-          tabBarIcon: () => (
-            <MaterialIcons name="chat-bubble-outline" size={24} color="black" />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Settings"
-        component={GeneralSettingsScreen}
-        options={{
-          tabBarLabel: "Settings",
-          tabBarIcon: () => (
-            <MaterialIcons name="settings" size={24} color="black" />
-          )
-        }}
-      />
-    </Tab.Navigator>
-  )
-}
 
 export default function App() {
 
@@ -92,28 +53,8 @@ export default function App() {
   }
 
   return (
-    <SafeAreaProvider
-      style={styles.container}
-      onLayout={onLayout}
-    >
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen
-            name="Home"
-            component={TabNavigator}
-            options={{
-              headerShown: false
-            }}
-          />
-          <Stack.Screen
-            name="MsgSettings"
-            component={MsgSettingsScreen}
-            options={{
-              headerTitle: "Settings"
-            }}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
+    <SafeAreaProvider style={styles.container} onLayout={onLayout}>
+      <AppNavigator />
     </SafeAreaProvider>
   );
 }
