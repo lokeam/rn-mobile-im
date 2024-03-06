@@ -1,11 +1,15 @@
 import { useCallback, useEffect, useState } from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+
+import ChatListingScreen from './screens/ChatListingScreen';
 import * as SplashScreen from 'expo-splash-screen';
 import * as Font from 'expo-font';
 import 'react-native-gesture-handler';
 
+const Stack = createStackNavigator();
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
@@ -38,7 +42,6 @@ export default function App() {
     loadFonts();
   }, []);
 
-
   const onLayout = useCallback(
     async () => {
       if (appIsLoaded) {
@@ -56,7 +59,11 @@ export default function App() {
       onLayout={onLayout}
     >
       <SafeAreaView>
-        <Text>React Native Mobile Instant Messenger</Text>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen name="Home" component={ChatListingScreen}/>
+          </Stack.Navigator>
+        </NavigationContainer>
       </SafeAreaView>
     </SafeAreaProvider>
   );
