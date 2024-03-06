@@ -8,6 +8,7 @@ import * as Font from 'expo-font';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { MaterialIcons } from '@expo/vector-icons';
 
 import MsgListingScreen from './screens/MsgListingScreen';
 import MsgSettingsScreen from './screens/MsgSettingsScreen';
@@ -19,9 +20,29 @@ const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
   return (
-    <Tab.Navigator>
-      <Tab.Screen name="MsgList" component={MsgListingScreen} />
-      <Tab.Screen name="Settings" component={GeneralSettingsScreen} />
+    <Tab.Navigator screenOptions={{
+      headerTitle: ""
+    }}>
+      <Tab.Screen
+        name="MsgList"
+        component={MsgListingScreen}
+        options={{
+          tabBarLabel: "Messages",
+          tabBarIcon: () => (
+            <MaterialIcons name="chat-bubble-outline" size={24} color="black" />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Settings"
+        component={GeneralSettingsScreen}
+        options={{
+          tabBarLabel: "Settings",
+          tabBarIcon: () => (
+            <MaterialIcons name="settings" size={24} color="black" />
+          )
+        }}
+      />
     </Tab.Navigator>
   )
 }
@@ -80,6 +101,9 @@ export default function App() {
           <Stack.Screen
             name="Home"
             component={TabNavigator}
+            options={{
+              headerShown: false
+            }}
           />
           <Stack.Screen
             name="MsgSettings"
@@ -90,7 +114,6 @@ export default function App() {
           />
         </Stack.Navigator>
       </NavigationContainer>
-
     </SafeAreaProvider>
   );
 }
