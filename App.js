@@ -1,17 +1,30 @@
+import { useCallback, useEffect, useState } from 'react';
 import 'react-native-gesture-handler';
 import { StyleSheet, Text } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import * as SplashScreen from 'expo-splash-screen';
-import { useCallback, useEffect, useState } from 'react';
+
 import * as Font from 'expo-font';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import MsgListingScreen from './screens/MsgListingScreen';
 import MsgSettingsScreen from './screens/MsgSettingsScreen';
+import GeneralSettingsScreen from './screens/GeneralSettingsScreen';
 
 SplashScreen.preventAutoHideAsync();
 const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
+
+const TabNavigator = () => {
+  return (
+    <Tab.Navigator>
+      <Tab.Screen name="MsgList" component={MsgListingScreen} />
+      <Tab.Screen name="Settings" component={GeneralSettingsScreen} />
+    </Tab.Navigator>
+  )
+}
 
 export default function App() {
 
@@ -60,14 +73,23 @@ export default function App() {
   return (
     <SafeAreaProvider
       style={styles.container}
-      onLayout={onLayout}>
-
-        <NavigationContainer>
-          <Stack.Navigator>
-            <Stack.Screen name="Home" component={MsgListingScreen} />
-            <Stack.Screen name="MsgSettings" component={MsgSettingsScreen} />
-          </Stack.Navigator>
-        </NavigationContainer>
+      onLayout={onLayout}
+    >
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Home"
+            component={TabNavigator}
+          />
+          <Stack.Screen
+            name="MsgSettings"
+            component={MsgSettingsScreen}
+            options={{
+              headerTitle: "Settings"
+            }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
 
     </SafeAreaProvider>
   );
