@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import {
   Button,
   ImageBackground,
+  KeyboardAvoidingView,
+  Platform,
   StyleSheet,
   TextInput,
   TouchableOpacity,
@@ -16,47 +18,65 @@ import { MaterialIcons } from '@expo/vector-icons';
 const MsgScreen = (props) => {
   const [messageText, setMessageText] = useState('');
 
+  const sendMessage = useCallback(() => setMessageText(''), [messageText]);
+
     return (
       <SafeAreaView
         style={styles.container}
         edges={['right', 'left', 'bottom']}
       >
-        <ImageBackground
-          source={backgroundImage}
-          style={styles.backgroundImage}
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : null}
+          keyboardVerticalOffset={100}
+          style={styles.screen}
         >
-        </ImageBackground>
-        <View style={styles.footerWrapper}>
-          <View style={styles.inputContainer}>
-            <TouchableOpacity onPress={() => console.log('add media pressed')}>
-              <FontAwesome5 name="plus" size={24} color="#8696a0" style={styles.footerIcon} />
-            </TouchableOpacity>
+          <ImageBackground
+            source={backgroundImage}
+            style={styles.backgroundImage}
+          >
+          </ImageBackground>
+          <View style={styles.footerWrapper}>
+            <View style={styles.inputContainer}>
+              <TouchableOpacity onPress={() => console.log('add media pressed')}>
+                <FontAwesome5 name="plus" size={24} color="#8696a0" style={styles.footerIcon} />
+              </TouchableOpacity>
 
-            <TextInput
-              onChangeText={text => setMessageText(text)}
-              placeholder="Message"
-              placeholderTextColor="#d1d7db"
-              style={styles.textBox}
-              value={messageText}
-            />
-            <TouchableOpacity
-              onPress={() => console.log('camera pressed')}
-              style={{ ...styles.mediaButton, ...styles.sendButton }}
-            >
-              { messageText === "" ? (
-                <MaterialIcons name="camera-alt" size={28} color="#d1d7db" style={styles.footerIconCamera} />
-              ) : (
-                <MaterialIcons name="send" size={25} color="#d1d7db" style={styles.footerIconCamera} />
-              )}
-            </TouchableOpacity>
+              <TextInput
+                onChangeText={text => setMessageText(text)}
+                onSubmitEditing={sendMessage}
+                placeholder="Message"
+                placeholderTextColor="#d1d7db"
+                style={styles.textBox}
+                value={messageText}
+              />
+              <TouchableOpacity
+                onPress={() => console.log('camera pressed')}
+                style={{ ...styles.mediaButton, ...styles.sendButton }}
+              >
+                { messageText === "" ? (
+                  <MaterialIcons name="camera-alt" size={28} color="#d1d7db" style={styles.footerIconCamera} />
+                ) : (
+                  <MaterialIcons
+                    color="#d1d7db"
+                    onPress={sendMessage}
+                    name="send"
+                    size={25}
+                    style={styles.footerIconCamera}
+                  />
+                )}
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
+        </KeyboardAvoidingView>
       </SafeAreaView>
     )
 };
 
 // To Research: Unistyles (https://reactnativeunistyles.vercel.app/)
 const styles = StyleSheet.create({
+  screen: {
+    flex: 1,
+  },
   backgroundImage: {
     flex: 1
   },
