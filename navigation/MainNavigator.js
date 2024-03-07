@@ -3,6 +3,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
+import MsgScreen from '../screens/MsgScreen';
 import MsgListingScreen from '../screens/MsgListingScreen';
 import MsgSettingsScreen from '../screens/MsgSettingsScreen';
 import GeneralSettingsScreen from '../screens/GeneralSettingsScreen';
@@ -51,10 +52,18 @@ const MainNavigator = (props) => {
           }}
         />
         <Stack.Screen
+          name="MsgScreen"
+          component={MsgScreen}
+          options={{
+            headerBackTitle: "Back"
+          }}
+        />
+        <Stack.Screen
           name="MsgSettings"
           component={MsgSettingsScreen}
           options={{
-            headerTitle: "Settings"
+            headerTitle: "Settings",
+            headerBackTitle: "Back"
           }}
         />
       </Stack.Navigator>
