@@ -45,7 +45,6 @@ const MsgScreen = (props) => {
                 onChangeText={text => setMessageText(text)}
                 onSubmitEditing={sendMessage}
                 placeholder="Message"
-                placeholderTextColor="#d1d7db"
                 style={styles.textBox}
                 value={messageText}
               />

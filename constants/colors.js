@@ -22,5 +22,6 @@ export default {
   inputBackground: '#2a3942',
   inputTextColor: '#d1d7db',
   messageTextColor: '#e9edef',
-  messageSendButtonColor: '#0e9674'
+  messageSendButtonColor: '#0e9674', // also button color
+  borderUIColor: '#d1d7db'
 }
