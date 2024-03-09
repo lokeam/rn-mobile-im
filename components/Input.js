@@ -3,12 +3,21 @@ import colors from "../constants/colors";
 
 const Input = (props) => {
   const { errorText } = props;
+
+  const onChangeText = text => {
+    props.onInputChanged(props.id, text);
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.textBox}>{props.label}</Text>
 
       <View style={styles.inputContainer}>
-        <TextInput style={styles.textBox} />
+        <TextInput
+          {...props}
+          style={styles.textBox}
+          onChangeText={onChangeText}
+        />
       </View>
 
       {
