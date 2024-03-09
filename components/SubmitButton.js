@@ -3,16 +3,14 @@ import { StyleSheet, TouchableOpacity, Text } from 'react-native';
 import colors from '../constants/colors';
 
 const SubmitButton = (props) => {
-  const { title, style: styleProps } = props;
-  // hardcode form validation for testing
-  const formValidated = true;
+  const { disabled, title, style: styleProps } = props;
 
   return (
     <TouchableOpacity
       style={[
         styleProps,
         styles.button,
-        formValidated && styles.buttonActive
+        !disabled && styles.buttonActive
       ]}>
       <Text>{title}</Text>
     </TouchableOpacity>

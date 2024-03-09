@@ -1,14 +1,29 @@
-import React from 'react';
+import React, {useCallback, useReducer} from 'react';
 import { StyleSheet } from 'react-native';
 import Input from '../components/Input';
 import SubmitButton from '../components/SubmitButton';
 import { validateInput } from '../utils/formValidation';
+import { formReducer } from '../utils/reducers/formReducer';
+
+const initialState = {
+  inputValidities: {
+    email: false,
+    password: false,
+  },
+  formIsValid: false
+};
 
 const SignInForm = () => {
+  const [formState, dispatchFormState] = useReducer(formReducer, initialState);
 
-  const inputHandler = (inputId, inputValue) => {
-    console.log(validateInput(inputId, inputValue));
-  };
+  const inputHandler = useCallback((inputId, inputValue) => {
+    const validationResult = validateInput(inputId, inputValue);
+
+    dispatchFormState({
+      inputId,
+      validationResult
+    });
+  },[dispatchFormState]);
 
   return (
     <>

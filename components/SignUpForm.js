@@ -1,14 +1,32 @@
-import React from 'react';
+import React, { useCallback, useReducer } from 'react';
 import { StyleSheet } from 'react-native';
 import Input from '../components/Input';
 import SubmitButton from '../components/SubmitButton';
 import { validateInput } from '../utils/formValidation';
+import { formReducer } from '../utils/reducers/formReducer';
+
+const initialState = {
+  inputValidities: {
+    firstName: false,
+    lastName: false,
+    email: false,
+    password: false,
+  },
+  formIsValid: false
+};
 
 const SignUpForm = (props) => {
 
-  const inputHandler = (inputId, inputValue) => {
-    console.log(validateInput(inputId, inputValue));
-  };
+  const [formState, dispatchFormState] = useReducer(formReducer, initialState);
+
+  const inputHandler = useCallback((inputId, inputValue) => {
+    const validationResult = validateInput(inputId, inputValue);
+
+    dispatchFormState({
+      inputId,
+      validationResult
+    });
+  },[dispatchFormState]);
 
   return (
     <>
@@ -47,6 +65,7 @@ const SignUpForm = (props) => {
         onPress={() => console.log('Submit button pressed')}
         style={{ marginTop: 20 }}
         title="Sign up"
+        disabled={!formState.formIsValid}
       />
     </>
   );
