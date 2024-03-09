@@ -23,7 +23,7 @@ const Input = (props) => {
       {
         errorText ? (
           <View style={styles.errorContainer}>
-            <Text style={styles.errorText}>{errorText}</Text>
+            <Text style={styles.errorText}>{errorText[0]}</Text>
           </View>
         ) : null
       }

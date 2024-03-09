@@ -30,7 +30,7 @@ const SignInForm = () => {
       <Input
         autoCapitalize="none"
         id="email"
-        errorText=""
+        errorText={formState.inputValidities["email"]}
         keyboardType="email-address"
         label="Email"
         onInputChanged={inputHandler}
@@ -38,7 +38,7 @@ const SignInForm = () => {
       />
       <Input
         autoCapitalize="none"
-        errorText=""
+        errorText={formState.inputValidities["password"]}
         id="password"
         label="Password"
         onInputChanged={inputHandler}
@@ -49,6 +49,7 @@ const SignInForm = () => {
         onPress={() => console.log('Submit button pressed')}
         style={{ marginTop: 20 }}
         title="Sign in"
+        disabled={!formState.formIsValid}
       />
     </>
   );

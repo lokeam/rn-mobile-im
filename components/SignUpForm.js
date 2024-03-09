@@ -32,13 +32,14 @@ const SignUpForm = (props) => {
     <>
       <Input
         id="firstName"
-        errorText=""
+        errorText={formState.inputValidities["firstName"]}
         label="First name"
         onInputChanged={inputHandler}
         style={styles.textLabel}
       />
       <Input
         id="lastName"
+        errorText={formState.inputValidities["lastName"]}
         label="Last name"
         onInputChanged={inputHandler}
         style={styles.textLabel}
@@ -46,7 +47,7 @@ const SignUpForm = (props) => {
       <Input
         autoCapitalize="none"
         id="email"
-        errorText=""
+        errorText={formState.inputValidities["email"]}
         keyboardType="email-address"
         label="Email"
         onInputChanged={inputHandler}
@@ -54,7 +55,7 @@ const SignUpForm = (props) => {
       />
       <Input
         autoCapitalize="none"
-        errorText=""
+        errorText={formState.inputValidities["password"]}
         id="password"
         label="Password"
         onInputChanged={inputHandler}
