@@ -4,8 +4,15 @@ import Input from '../components/Input';
 import SubmitButton from '../components/SubmitButton';
 import { validateInput } from '../utils/formValidation';
 import { formReducer } from '../utils/reducers/formReducer';
+import { signUpValidator } from '../utils/authValidation';
 
 const initialState = {
+  inputValues: {
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+  },
   inputValidities: {
     firstName: false,
     lastName: false,
@@ -20,13 +27,23 @@ const SignUpForm = (props) => {
   const [formState, dispatchFormState] = useReducer(formReducer, initialState);
 
   const inputHandler = useCallback((inputId, inputValue) => {
-    const validationResult = validateInput(inputId, inputValue);
+    const result = validateInput(inputId, inputValue);
 
     dispatchFormState({
       inputId,
-      validationResult
+      validationResult: result,
+      inputValue
     });
   },[dispatchFormState]);
+
+  const authorizationHandler = () => {
+    signUpValidator(
+      formState.inputValues.firstName,
+      formState.inputValues.lastName,
+      formState.inputValues.email,
+      formState.inputValues.password,
+    )
+  }
 
   return (
     <>
@@ -63,7 +80,7 @@ const SignUpForm = (props) => {
         style={styles.textLabel}
       />
       <SubmitButton
-        onPress={() => console.log('Submit button pressed')}
+        onPress={authorizationHandler}
         style={{ marginTop: 20 }}
         title="Sign up"
         disabled={!formState.formIsValid}
