@@ -65,7 +65,7 @@ const SignUpForm = (props) => {
         autoCapitalize="none"
         id="email"
         errorText={formState.inputValidities["email"]}
-        keyboardType="email-address"
+        inputMode="email"
         label="Email"
         onInputChanged={inputHandler}
         style={styles.textLabel}

@@ -4,9 +4,9 @@ import {
   ImageBackground,
   KeyboardAvoidingView,
   Platform,
+  Pressable,
   StyleSheet,
   TextInput,
-  TouchableOpacity,
   View,
  } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -37,9 +37,9 @@ const MsgScreen = (props) => {
           </ImageBackground>
           <View style={styles.footerWrapper}>
             <View style={styles.inputContainer}>
-              <TouchableOpacity onPress={() => console.log('add media pressed')}>
+              <Pressable onPress={() => console.log('add media pressed')}>
                 <FontAwesome5 name="plus" size={24} color="#8696a0" style={styles.footerIcon} />
-              </TouchableOpacity>
+              </Pressable>
 
               <TextInput
                 onChangeText={text => setMessageText(text)}
@@ -48,7 +48,7 @@ const MsgScreen = (props) => {
                 style={styles.textBox}
                 value={messageText}
               />
-              <TouchableOpacity
+              <Pressable
                 onPress={() => console.log('camera pressed')}
                 style={{ ...styles.mediaButton, ...styles.sendButton }}
               >
@@ -63,7 +63,7 @@ const MsgScreen = (props) => {
                     style={styles.footerIconCamera}
                   />
                 )}
-              </TouchableOpacity>
+              </Pressable>
             </View>
           </View>
         </KeyboardAvoidingView>

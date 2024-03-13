@@ -3,10 +3,10 @@ import {
   Image,
   KeyboardAvoidingView,
   Platform,
+  Pressable,
   ScrollView,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -41,12 +41,12 @@ const AuthenticationScreen = (props) => {
               ) : (
                 <SignInForm />
               )}
-            <TouchableOpacity
+            <Pressable
               onPress={() => setIsSignUp(prevState => !prevState)}
               style={styles.linkContainer}
             >
               <Text style={styles.link}>{`Switch to ${isSignUp ? 'sign in' : 'sign up'}`}</Text>
-            </TouchableOpacity>
+            </Pressable>
             </PageContainer>
           </KeyboardAvoidingView>
         </ScrollView>
