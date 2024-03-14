@@ -1,6 +1,5 @@
 import React, { useState, useCallback } from 'react';
 import {
-  Button,
   ImageBackground,
   KeyboardAvoidingView,
   Platform,
