@@ -40,7 +40,7 @@ const SignUpForm = (props) => {
 
   useEffect(() => {
     if (error) {
-      Alert.alert(error);
+      Alert.alert(error.message);
     }
   }, [error]);
 
