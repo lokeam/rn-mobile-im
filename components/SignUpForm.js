@@ -6,6 +6,7 @@ import { validateInput } from '../utils/formValidation';
 import { formReducer } from '../utils/reducers/formReducer';
 import { signUpValidator } from '../utils/authValidation';
 import colors from '../constants/colors';
+import { useDispatch } from 'react-redux';
 
 const initialState = {
   inputValues: {
@@ -28,6 +29,8 @@ const SignUpForm = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
+  const dispatch = useDispatch();
+
   const inputHandler = useCallback((inputId, inputValue) => {
     const result = validateInput(inputId, inputValue);
 
@@ -47,12 +50,15 @@ const SignUpForm = (props) => {
   const authorizationHandler = async () => {
     try {
       setIsLoading(true);
-      await signUpValidator(
+
+      const action = signUpValidator(
         formState.inputValues.firstName,
         formState.inputValues.lastName,
         formState.inputValues.email,
         formState.inputValues.password,
       );
+
+      dispatch(action);
       setError(null);
     } catch(error) {
       setError(error);

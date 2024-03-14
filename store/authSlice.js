@@ -7,10 +7,12 @@ const authSlice = createSlice({
     userData: null
   },
   reducers: {
-    authenticate: () => (state, action) => {
+    authenticate: (state, action) => {
       const { payload } = action;
       state.token = payload.token;
       state.userData = payload.userData;
+
+      console.log('testing state: ', state);
     }
   }
 });

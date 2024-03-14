@@ -1,29 +1,32 @@
 import { getFirebaseApp } from "./firebaseHelper";
 import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
 import { child, getDatabase, ref, set } from 'firebase/database';
+import { authenticate } from "../store/authSlice";
 
-export const signUpValidator = async (firstname, lastName, email, password) => {
-  const app = getFirebaseApp();
-  const auth = getAuth(app);
+export const signUpValidator = (firstname, lastName, email, password) => {
+  return async dispatch => {
+    const app = getFirebaseApp();
+    const auth = getAuth(app);
 
-  try {
-    const result = await createUserWithEmailAndPassword(auth, email, password);
-    const { uid } = result.user;
-    console.log('testing auth creds: ',firstname, lastName, email, uid)
-    const userData = await createUser(firstname, lastName, email, uid);
+    try {
+      const result = await createUserWithEmailAndPassword(auth, email, password);
+      const { uid, stsTokenManager } = result.user;
+      const { accessToken } = stsTokenManager;
 
-    console.log('testing userData: ', userData);
+      const userData = await createUser(firstname, lastName, email, uid);
 
-  } catch (error) {
-    const errorCode = error.code;
+      dispatch(authenticate({ token: accessToken, userData }));
+    } catch (error) {
+      const errorCode = error.code;
 
-    let errorMessageTemplate = 'Something went wrong.';
+      let errorMessageTemplate = 'Something went wrong.';
 
-    if (errorCode === 'auth/email-already-in-use') {
-      errorMessageTemplate = 'Thank you for registering! An email has been sent to this account for confirmation.';
+      if (errorCode === 'auth/email-already-in-use') {
+        errorMessageTemplate = 'Thank you for registering! An email has been sent to this account for confirmation.';
+      }
+
+      throw new Error(errorMessageTemplate);
     }
-
-    throw new Error(errorMessageTemplate);
   }
 };
 
