@@ -3,9 +3,10 @@ import { NavigationContainer } from '@react-navigation/native';
 
 import MainNavigator from './MainNavigator';
 import SignUpScreen from '../screens/AuthenticationScreen';
+import { useSelector } from 'react-redux';
 
 // testing auth / login screen
-const isAuthorized = false;
+const isAuthorized = useSelector(state => state.auth.token !== null) && state.auth.token !== '';
 
 const AppNavigator = () => {
   return (

@@ -6,7 +6,7 @@ import { validateInput } from '../utils/formValidation';
 import { formReducer } from '../utils/reducers/formReducer';
 import { signUpValidator } from '../utils/authValidation';
 import colors from '../constants/colors';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 const initialState = {
   inputValues: {
@@ -28,8 +28,10 @@ const SignUpForm = (props) => {
   const [formState, dispatchFormState] = useReducer(formReducer, initialState);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  console.log('state data, signup form: ', stateData);
 
   const dispatch = useDispatch();
+  const stateData = useSelector(state => state.auth);
 
   const inputHandler = useCallback((inputId, inputValue) => {
     const result = validateInput(inputId, inputValue);
